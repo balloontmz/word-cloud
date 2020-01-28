@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+
+### PYTHON Container #######################################
+
+  python:
+    build:
+      context: ./py
+    volumes:
+      - ../www/code:/code
+      - ../data/screen_shot:/data/screen_shot
+      - ../data/log:/data/log
+    expose:
+      - "9000"
+    restart: always
+
+# volumes:
+#   mysql_data:
+networks:
+  default:
+    external:
+      name: ${USER_NETWORK}

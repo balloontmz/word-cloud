@@ -5,8 +5,9 @@ ENV TIME_ZONE=${TIME_ZONE} \
 
 COPY sources.list /etc/apt/china.sources.list
 
-RUN mkdir /code \
-    &&mv /etc/apt/sources.list /etc/apt/source.list.bak \
+# RUN mkdir /code \
+# &&mv /etc/apt/sources.list /etc/apt/source.list.bak \
+RUN mv /etc/apt/sources.list /etc/apt/source.list.bak \
     &&mv /etc/apt/china.sources.list /etc/apt/sources.list\
     &&apt-get update \
     &&apt-get -y install freetds-dev  \
@@ -29,10 +30,10 @@ RUN CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RE
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 RUN dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
 
-COPY code /code
+# COPY ../www/code /code
 RUN pip install -r /code/requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/
 WORKDIR /code
 
-EXPOSE 8111
+# EXPOSE 8111
 
 CMD ["gunicorn", "app:app", "-c", "./gunicorn.conf.py"]

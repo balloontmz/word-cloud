@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 import base64
 import hashlib
 import io
@@ -32,19 +33,21 @@ def hello_world():
     is_debug = request.form.get('debug', "0")
     font = os.path.join(d, 'simhei.ttf')
 
-    mask_path = os.path.join(d, "{}_mask.png".format(gender))
-    mask_image = np.array(Image.open(mask_path))
+    # mask_path = os.path.join(d, "{}_mask.png".format(gender))
+    # mask_image = np.array(Image.open(mask_path))
 
     world_list_after_jieba = jieba.cut(text, cut_all=True)
     world_split = ' '.join(world_list_after_jieba)
     cc = "#FDD3D9"
     if gender == 'man':
         cc = "#C1DBFF"
-    wc = WordCloud(collocations=False, mask=mask_image, font_path=font, max_words=200, contour_width=0,
+    # mask=mask_image
+    wc = WordCloud(collocations=False, mask=None, font_path=font, max_words=200, contour_width=0,
                    contour_color=cc, margin=0,
                    mode='RGBA',
                    background_color='rgba(255, 255, 255, 0)',
-                   width=252, height=668).generate(world_split)
+                   width=400, height=400).generate(world_split)
+    #    width=252, height=668
     img = wc.to_image()
     output_buffer = io.BytesIO()
     img.save(output_buffer, format='png')
@@ -53,6 +56,10 @@ def hello_world():
     if is_debug == '1':
         return send_file(output_buffer, mimetype='image/png', attachment_filename='your.png', as_attachment=True)
     binary_data = output_buffer.getvalue()
+    # return binary_data
+    # with open('test.png', 'wb')as fp:
+    #     fp.write(binary_data)
+
     base64_data = base64.b64encode(binary_data)
     image_64 = 'data:image/png;base64,' + quote(base64_data)
     return image_64
