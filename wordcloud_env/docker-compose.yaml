@@ -12,7 +12,7 @@ services:
       - ../data/screen_shot:/data/screen_shot
       - ../data/log:/data/log
     expose:
-      - "9000"
+      - ${PYTHON_PORT}
     restart: always
 
 # volumes:
