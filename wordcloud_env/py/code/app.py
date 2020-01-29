@@ -9,9 +9,9 @@ import time
 from selenium import webdriver
 
 try:  # Python 3
-    from urllib.parse import quote
+    from urllib.parse import quote, quote_plus
 except ImportError:  # Python 2
-    from urllib import quote
+    from urllib import quote, quote_plus
 
 import jieba
 
@@ -60,8 +60,10 @@ def hello_world():
     # with open('test.png', 'wb')as fp:
     #     fp.write(binary_data)
 
+    # quote url 安全转义,此处先删除
     base64_data = base64.b64encode(binary_data)
-    image_64 = 'data:image/png;base64,' + quote(base64_data)
+    # image_64 = 'data:image/png;base64,' + quote(base64_data)
+    image_64 = 'data:image/png;base64,' + quote_plus(base64_data)
     return image_64
 
 
